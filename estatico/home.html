@@ -3,10 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home Da B1</title>
     <link rel="icon" type="image/png" href="../img/logo-b1.jpeg">
+     <!-- Bootstrap CSS -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+     <!-- Font Awesome CSS -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Estilos personalizados */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: linear-gradient(90deg, #007bff, #00c6ff);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand img {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+        .navbar-brand img:hover {
+            transform: scale(1.1);
+        }
+        .navbar-nav .nav-link {
+            color: white !important;
+            transition: color 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ffdd57 !important;
+        }
+        .btn-login {
+            background-color: #ffdd57;
+            color: #007bff;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .btn-login:hover {
+            background-color: #ffc107;
+            color: white;
+        }
+        /* Menu responsivo */
+        .navbar-toggler {
+            border: none;
+        }
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        </style>
 </head>
 <body>
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <!-- Logo -->
+                <a class="navbar-brand" href="#">
+                    <img src="sua-logo.png" alt="Logo" />
+                </a>
+                <!-- Botão do menu responsivo -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars text-white"></i>
+                </button>
+                <!-- Menu -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#login-cadastro"><i class="fas fa-user"></i> Login/Cadastro</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#documentacao"><i class="fas fa-book"></i> Documentação</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contribua"><i class="fas fa-hand-holding-heart"></i> Contribua</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#updates"><i class="fas fa-sync-alt"></i> Updates</a>
+                        </li>
+                    </ul>
+                    <button class="btn btn-login ms-lg-3">Entrar</button>
+                </div>
+            </div>
+        </nav>
+    </header>
     
+    <script>
+
+    </script>
 </body>
 </html>
