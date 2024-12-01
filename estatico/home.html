@@ -4,18 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B1 - Sua Plataforma de Artigos e Socialização</title>
+    <title>B1 - Sua Plataforma Global de Artigos e Socialização</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f39c12;
+            --accent-color: #e74c3c;
+            --text-color: #333333;
+            --bg-color: #f4f4f4;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
         }
 
         .parallax {
@@ -26,11 +37,11 @@
         }
 
         .hero-parallax {
-            background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
         }
 
         .features-parallax {
-            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
         }
 
         .auth-form {
@@ -41,18 +52,71 @@
         .text-shadow {
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a7bd5;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e67e22;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
     </style>
 </head>
-<body class="bg-gray-100">
-    <header class="bg-blue-600 text-white fixed w-full z-50">
+<body>
+    <header class="bg-white shadow-md fixed w-full z-50 transition-all duration-300" id="header">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#" class="text-3xl font-bold">B1</a>
-            <div class="hidden md:flex space-x-4">
-                <a href="#features" class="hover:text-yellow-300 transition duration-300">Recursos</a>
-                <a href="#about" class="hover:text-yellow-300 transition duration-300">Sobre</a>
-                <a href="#contact" class="hover:text-yellow-300 transition duration-300">Contato</a>
+            <a href="#" class="text-3xl font-bold text-primary-color">B1</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#features" class="hover:text-secondary-color transition duration-300">Recursos</a>
+                <a href="#global-access" class="hover:text-secondary-color transition duration-300">Acesso Global</a>
+                <a href="#public-articles" class="hover:text-secondary-color transition duration-300">Artigos Públicos</a>
+                <a href="#contact" class="hover:text-secondary-color transition duration-300">Contato</a>
             </div>
-            <button id="loginBtn" class="bg-yellow-400 text-blue-600 px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 transition duration-300">Entrar</button>
+            <button id="loginBtn" class="btn-primary px-6 py-2 rounded-full font-semibold">Entrar</button>
         </nav>
     </header>
 
@@ -61,17 +125,17 @@
             <div class="absolute inset-0 bg-black opacity-50"></div>
             <div class="container mx-auto px-6 text-center relative z-10">
                 <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 text-shadow">Bem-vindo ao B1</h1>
-                <p class="text-xl md:text-2xl text-white mb-8 text-shadow">Escreva, compartilhe e conecte-se</p>
+                <p class="text-xl md:text-2xl text-white mb-8 text-shadow">Escreva, compartilhe e conecte-se globalmente</p>
                 <div id="authForm" class="auth-form max-w-md mx-auto p-6 rounded-lg">
                     <div id="emailStep">
                         <input type="email" id="email" placeholder="Seu e-mail" class="w-full px-4 py-2 rounded mb-4 text-gray-800">
-                        <button id="emailNext" class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-500 transition duration-300">
+                        <button id="emailNext" class="btn-secondary w-full py-2 rounded-full font-semibold">
                             <i class="fas fa-envelope mr-2"></i>Próximo
                         </button>
                     </div>
                     <div id="passwordStep" class="hidden">
                         <input type="password" id="password" placeholder="Sua senha" class="w-full px-4 py-2 rounded mb-4 text-gray-800">
-                        <button id="signIn" class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-500 transition duration-300">
+                        <button id="signIn" class="btn-secondary w-full py-2 rounded-full font-semibold">
                             <i class="fas fa-sign-in-alt mr-2"></i>Entrar
                         </button>
                     </div>
@@ -81,20 +145,20 @@
 
         <section id="features" class="features-parallax parallax py-20">
             <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold text-center text-white mb-12 text-shadow">Recursos Incríveis</h2>
+                <h2 class="text-4xl font-bold text-center text-white mb-12 text-shadow section-title">Recursos Incríveis</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-lg p-6 shadow-lg transform hover:scale-105 transition duration-300">
-                        <i class="fas fa-pen-fancy text-4xl text-blue-600 mb-4"></i>
+                    <div class="card p-6">
+                        <i class="fas fa-pen-fancy text-4xl text-primary-color mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Escreva Artigos</h3>
                         <p class="text-gray-600">Compartilhe suas ideias e conhecimentos com o mundo.</p>
                     </div>
-                    <div class="bg-white rounded-lg p-6 shadow-lg transform hover:scale-105 transition duration-300">
-                        <i class="fas fa-users text-4xl text-blue-600 mb-4"></i>
+                    <div class="card p-6">
+                        <i class="fas fa-users text-4xl text-primary-color mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Conecte-se</h3>
                         <p class="text-gray-600">Interaja com outros usuários e expanda sua rede.</p>
                     </div>
-                    <div class="bg-white rounded-lg p-6 shadow-lg transform hover:scale-105 transition duration-300">
-                        <i class="fas fa-lightbulb text-4xl text-blue-600 mb-4"></i>
+                    <div class="card p-6">
+                        <i class="fas fa-lightbulb text-4xl text-primary-color mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Descubra</h3>
                         <p class="text-gray-600">Explore conteúdos diversos e enriquecedores.</p>
                     </div>
@@ -102,43 +166,63 @@
             </div>
         </section>
 
-        <section id="about" class="bg-white py-20">
+        <section id="global-access" class="bg-white py-20">
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row items-center">
                     <div class="md:w-1/2 mb-8 md:mb-0">
-                        <h2 class="text-3xl font-bold mb-4">Por que escolher o B1?</h2>
-                        <p class="text-gray-600 mb-6">O B1 é mais do que uma plataforma de artigos. É um espaço para você expressar suas ideias, conectar-se com pessoas interessantes e crescer intelectualmente.</p>
+                        <h2 class="text-3xl font-bold mb-4 section-title">Acesso Global</h2>
+                        <p class="text-gray-600 mb-6">O B1 é uma plataforma verdadeiramente global. Qualquer pessoa, em qualquer lugar do mundo, pode criar uma conta e começar a compartilhar suas ideias.</p>
                         <ul class="space-y-2">
-                            <li><i class="fas fa-check text-green-500 mr-2"></i>Avalie artigos e receba feedback</li>
-                            <li><i class="fas fa-check text-green-500 mr-2"></i>Sugira edições e colabore com outros autores</li>
-                            <li><i class="fas fa-check text-green-500 mr-2"></i>Denuncie conteúdo inadequado</li>
-                            <li><i class="fas fa-check text-green-500 mr-2"></i>Personalize sua experiência de leitura</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Autenticação segura com Firebase</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Suporte a múltiplos idiomas</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Comunidade diversificada e inclusiva</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Acesso 24/7 de qualquer dispositivo</li>
                         </ul>
                     </div>
                     <div class="md:w-1/2">
-                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Colaboração" class="rounded-lg shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1589254066213-a0c9dc853511?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Globo Terrestre" class="rounded-lg shadow-lg">
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="bg-gray-100 py-20">
+        <section id="public-articles" class="bg-gray-100 py-20">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center mb-8">Entre em Contato</h2>
-                <form class="max-w-lg mx-auto">
+                <div class="flex flex-col md:flex-row-reverse items-center">
+                    <div class="md:w-1/2 mb-8 md:mb-0 md:ml-8">
+                        <h2 class="text-3xl font-bold mb-4 section-title">A Importância dos Artigos Públicos</h2>
+                        <p class="text-gray-600 mb-6">No B1, acreditamos no poder do conhecimento compartilhado. Artigos públicos e gratuitos são essenciais para:</p>
+                        <ul class="space-y-2">
+                            <li><i class="fas fa-graduation-cap text-primary-color mr-2"></i>Democratizar o acesso à informação</li>
+                            <li><i class="fas fa-comments text-primary-color mr-2"></i>Fomentar discussões construtivas</li>
+                            <li><i class="fas fa-lightbulb text-primary-color mr-2"></i>Inspirar novas ideias e inovações</li>
+                            <li><i class="fas fa-users text-primary-color mr-2"></i>Construir uma comunidade global de aprendizado</li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1516414447565-b14be0adf13e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Leitura e Compartilhamento" class="rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="gradient-bg py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-white mb-8 section-title">Entre em Contato</h2>
+                <form id="contactForm" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg">
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700 font-semibold mb-2">Nome</label>
-                        <input type="text" id="name" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-blue-500" required>
+                        <input type="text" id="name" name="name" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-primary-color" required>
                     </div>
                     <div class="mb-4">
                         <label for="email" class="block text-gray-700 font-semibold mb-2">E-mail</label>
-                        <input type="email" id="email" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-blue-500" required>
+                        <input type="email" id="email" name="email" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-primary-color" required>
                     </div>
                     <div class="mb-4">
                         <label for="message" class="block text-gray-700 font-semibold mb-2">Mensagem</label>
-                        <textarea id="message" rows="4" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-blue-500" required></textarea>
+                        <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-primary-color" required></textarea>
                     </div>
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-500 transition duration-300">Enviar Mensagem</button>
+                    <button type="submit" class="btn-primary w-full py-2 rounded-full font-semibold">Enviar Mensagem</button>
                 </form>
             </div>
         </section>
@@ -149,24 +233,25 @@
             <div class="flex flex-wrap justify-between items-center">
                 <div class="w-full md:w-1/3 text-center md:text-left mb-6 md:mb-0">
                     <h3 class="text-2xl font-bold">B1</h3>
-                    <p class="mt-2 text-sm">Sua plataforma de artigos e socialização</p>
+                    <p class="mt-2 text-sm">Sua plataforma global de artigos e socialização</p>
                 </div>
                 <div class="w-full md:w-1/3 text-center mb-6 md:mb-0">
                     <h4 class="text-lg font-semibold mb-2">Links Rápidos</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-blue-400 transition duration-300">Início</a></li>
-                        <li><a href="#features" class="hover:text-blue-400 transition duration-300">Recursos</a></li>
-                        <li><a href="#about" class="hover:text-blue-400 transition duration-300">Sobre</a></li>
-                        <li><a href="#contact" class="hover:text-blue-400 transition duration-300">Contato</a></li>
+                        <li><a href="#" class="hover:text-primary-color transition duration-300">Início</a></li>
+                        <li><a href="#features" class="hover:text-primary-color transition duration-300">Recursos</a></li>
+                        <li><a href="#global-access" class="hover:text-primary-color transition duration-300">Acesso Global</a></li>
+                        <li><a href="#public-articles" class="hover:text-primary-color transition duration-300">Artigos Públicos</a></li>
+                        <li><a href="#contact" class="hover:text-primary-color transition duration-300">Contato</a></li>
                     </ul>
                 </div>
                 <div class="w-full md:w-1/3 text-center md:text-right">
                     <h4 class="text-lg font-semibold mb-2">Siga-nos</h4>
                     <div class="flex justify-center md:justify-end space-x-4">
-                        <a href="#" class="text-2xl hover:text-blue-400 transition duration-300"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-2xl hover:text-blue-400 transition duration-300"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-2xl hover:text-blue-400 transition duration-300"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-2xl hover:text-blue-400 transition duration-300"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-2xl hover:text-primary-color transition duration-300"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-2xl hover:text-primary-color transition duration-300"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-2xl hover:text-primary-color transition duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-2xl hover:text-primary-color transition duration-300"><i class="fab fa-linkedin"></i></a>
                     </div>
                 </div>
             </div>
@@ -190,6 +275,8 @@
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
 
         // Authentication logic
         const emailStep = document.getElementById('emailStep');
@@ -208,23 +295,55 @@
             const email = emailInput.value;
             const password = passwordInput.value;
 
-            firebase.auth().signInWithEmailAndPassword(email, password)
+            auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
-                    // Signed in
                     const user = userCredential.user;
                     alert('Bem-vindo ao B1! Você foi autenticado com sucesso.');
                     // Redirect to dashboard or update UI
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
                     const errorMessage = error.message;
                     alert(`Erro: ${errorMessage}`);
                 });
         });
 
+        // Contact form submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = contactForm.name.value;
+            const email = contactForm.email.value;
+            const message = contactForm.message.value;
+
+            // Save to Firebase Realtime Database
+            database.ref('contacts').push({
+                name: name,
+                email: email,
+                message: message,
+                timestamp: Date.now()
+            }).then(() => {
+                alert('Mensagem enviada com sucesso!');
+                contactForm.reset();
+            }).catch((error) => {
+                alert(`Erro ao enviar mensagem: ${error.message}`);
+            });
+        });
+
         // GSAP animations
         gsap.registerPlugin(ScrollTrigger);
 
+        // Header animation
+        gsap.to("#header", {
+            scrollTrigger: {
+                start: "top top",
+                end: "+=200",
+                scrub: true
+            },
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            height: "60px"
+        });
+
+        // Hero section animations
         gsap.from('.hero-parallax h1', {
             opacity: 0,
             y: 50,
@@ -246,7 +365,8 @@
             }
         });
 
-        gsap.from('#features .grid > div', {
+        // Features section animations
+        gsap.from('#features .card', {
             opacity: 0,
             y: 50,
             duration: 0.8,
@@ -257,16 +377,51 @@
             }
         });
 
-        gsap.from('#about img', {
+        // Global access section animations
+        gsap.from('#global-access img', {
             opacity: 0,
             x: 100,
             duration: 1,
             scrollTrigger: {
-                trigger: '#about',
+                trigger: '#global-access',
                 start: 'top center+=100',
             }
         });
 
+        gsap.from('#global-access h2, #global-access p, #global-access ul', {
+            opacity: 0,
+            x: -100,
+            duration: 1,
+            stagger: 0.2,
+            scrollTrigger: {
+                trigger: '#global-access',
+                start: 'top center+=100',
+            }
+        });
+
+        // Public articles section animations
+        gsap.from('#public-articles img', {
+            opacity: 0,
+            x: -100,
+            duration: 1,
+            scrollTrigger: {
+                trigger: '#public-articles',
+                start: 'top center+=100',
+            }
+        });
+
+        gsap.from('#public-articles h2, #public-articles p, #public-articles ul', {
+            opacity: 0,
+            x: 100,
+            duration: 1,
+            stagger: 0.2,
+            scrollTrigger: {
+                trigger: '#public-articles',
+                start: 'top center+=100',
+            }
+        });
+
+        // Contact form animation
         gsap.from('#contact form', {
             opacity: 0,
             y: 50,
