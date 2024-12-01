@@ -9,6 +9,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.21/dist/vanta.net.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
@@ -27,6 +35,7 @@
             font-family: 'Poppins', sans-serif;
             color: var(--text-color);
             background-color: var(--bg-color);
+            overflow-x: hidden;
         }
 
         .parallax {
@@ -37,7 +46,8 @@
         }
 
         .hero-parallax {
-            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            position: relative;
+            overflow: hidden;
         }
 
         .features-parallax {
@@ -104,6 +114,45 @@
             height: 3px;
             background-color: var(--accent-color);
         }
+
+        .section-transition {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+        }
+
+        .section-transition::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: inherit;
+            transform: skewY(-3deg);
+            transform-origin: 0 0;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+        }
+
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 300px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -121,11 +170,14 @@
     </header>
 
     <main>
-        <section id="hero" class="hero-parallax parallax h-screen flex items-center justify-center relative">
-            <div class="absolute inset-0 bg-black opacity-50"></div>
-            <div class="container mx-auto px-6 text-center relative z-10">
+        <section id="hero" class="hero-parallax h-screen flex items-center justify-center relative">
+            <div id="vanta-canvas" class="absolute inset-0"></div>
+            <div id="particles-js" class="absolute inset-0"></div>
+            <div class="container mx-auto px-6 text-center relative z-10 content-wrapper">
                 <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 text-shadow">Bem-vindo ao B1</h1>
-                <p class="text-xl md:text-2xl text-white mb-8 text-shadow">Escreva, compartilhe e conecte-se globalmente</p>
+                <p class="text-xl md:text-2xl text-white mb-8 text-shadow">
+                    <span id="typed-text"></span>
+                </p>
                 <div id="authForm" class="auth-form max-w-md mx-auto p-6 rounded-lg">
                     <div id="emailStep">
                         <input type="email" id="email" placeholder="Seu e-mail" class="w-full px-4 py-2 rounded mb-4 text-gray-800">
@@ -135,29 +187,31 @@
                     </div>
                     <div id="passwordStep" class="hidden">
                         <input type="password" id="password" placeholder="Sua senha" class="w-full px-4 py-2 rounded mb-4 text-gray-800">
-                        <button id="signIn" class="btn-secondary w-full py-2 rounded-full font-semibold">
-                            <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+                        <button id="signUp" class="btn-secondary w-full py-2 rounded-full font-semibold">
+                            <i class="fas fa-user-plus mr-2"></i>Criar Conta
                         </button>
                     </div>
                 </div>
             </div>
         </section>
 
+        <div class="section-transition bg-white"></div>
+
         <section id="features" class="features-parallax parallax py-20">
             <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold text-center text-white mb-12 text-shadow section-title">Recursos Incríveis</h2>
+                <h2 class="text-4xl font-bold text-center text-white mb-12 text-shadow section-title" data-aos="fade-up">Recursos Incríveis</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="card p-6">
+                    <div class="card p-6" data-aos="flip-left" data-aos-delay="100">
                         <i class="fas fa-pen-fancy text-4xl text-primary-color mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Escreva Artigos</h3>
                         <p class="text-gray-600">Compartilhe suas ideias e conhecimentos com o mundo.</p>
                     </div>
-                    <div class="card p-6">
+                    <div class="card p-6" data-aos="flip-left" data-aos-delay="200">
                         <i class="fas fa-users text-4xl text-primary-color mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Conecte-se</h3>
                         <p class="text-gray-600">Interaja com outros usuários e expanda sua rede.</p>
                     </div>
-                    <div class="card p-6">
+                    <div class="card p-6" data-aos="flip-left" data-aos-delay="300">
                         <i class="fas fa-lightbulb text-4xl text-primary-color mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Descubra</h3>
                         <p class="text-gray-600">Explore conteúdos diversos e enriquecedores.</p>
@@ -166,10 +220,12 @@
             </div>
         </section>
 
+        <div class="section-transition bg-white"></div>
+
         <section id="global-access" class="bg-white py-20">
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row items-center">
-                    <div class="md:w-1/2 mb-8 md:mb-0">
+                    <div class="md:w-1/2 mb-8 md:mb-0" data-aos="fade-right">
                         <h2 class="text-3xl font-bold mb-4 section-title">Acesso Global</h2>
                         <p class="text-gray-600 mb-6">O B1 é uma plataforma verdadeiramente global. Qualquer pessoa, em qualquer lugar do mundo, pode criar uma conta e começar a compartilhar suas ideias.</p>
                         <ul class="space-y-2">
@@ -179,17 +235,19 @@
                             <li><i class="fas fa-check text-green-500 mr-2"></i>Acesso 24/7 de qualquer dispositivo</li>
                         </ul>
                     </div>
-                    <div class="md:w-1/2">
-                        <img src="https://images.unsplash.com/photo-1589254066213-a0c9dc853511?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Globo Terrestre" class="rounded-lg shadow-lg">
+                    <div class="md:w-1/2" data-aos="fade-left">
+                        <div id="globe-container" class="w-full h-96"></div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <div class="section-transition bg-gray-100"></div>
+
         <section id="public-articles" class="bg-gray-100 py-20">
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row-reverse items-center">
-                    <div class="md:w-1/2 mb-8 md:mb-0 md:ml-8">
+                    <div class="md:w-1/2 mb-8 md:mb-0 md:ml-8" data-aos="fade-left">
                         <h2 class="text-3xl font-bold mb-4 section-title">A Importância dos Artigos Públicos</h2>
                         <p class="text-gray-600 mb-6">No B1, acreditamos no poder do conhecimento compartilhado. Artigos públicos e gratuitos são essenciais para:</p>
                         <ul class="space-y-2">
@@ -199,17 +257,21 @@
                             <li><i class="fas fa-users text-primary-color mr-2"></i>Construir uma comunidade global de aprendizado</li>
                         </ul>
                     </div>
-                    <div class="md:w-1/2">
-                        <img src="https://images.unsplash.com/photo-1516414447565-b14be0adf13e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Leitura e Compartilhamento" class="rounded-lg shadow-lg">
+                    <div class="md:w-1/2" data-aos="fade-right">
+                        <div class="chart-container">
+                            <canvas id="articleChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <div class="section-transition gradient-bg"></div>
+
         <section id="contact" class="gradient-bg py-20">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center text-white mb-8 section-title">Entre em Contato</h2>
-                <form id="contactForm" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-center text-white mb-8 section-title" data-aos="fade-up">Entre em Contato</h2>
+                <form id="contactForm" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg" data-aos="fade-up">
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700 font-semibold mb-2">Nome</label>
                         <input type="text" id="name" name="name" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-primary-color" required>
@@ -284,26 +346,40 @@
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const emailNext = document.getElementById('emailNext');
-        const signIn = document.getElementById('signIn');
+        const signUp = document.getElementById('signUp');
 
         emailNext.addEventListener('click', () => {
             emailStep.classList.add('hidden');
             passwordStep.classList.remove('hidden');
         });
 
-        signIn.addEventListener('click', () => {
+        signUp.addEventListener('click', () => {
             const email = emailInput.value;
             const password = passwordInput.value;
 
-            auth.signInWithEmailAndPassword(email, password)
+            auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    alert('Bem-vindo ao B1! Você foi autenticado com sucesso.');
-                    // Redirect to dashboard or update UI
+                    Swal.fire({
+                        title: 'Conta criada com sucesso!',
+                        text: 'Bem-vindo ao B1!',
+                        icon: 'success',
+                        confirmButtonText: 'Ir para o Dashboard'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirect to dashboard or update UI
+                            console.log('Redirect to dashboard');
+                        }
+                    });
                 })
                 .catch((error) => {
                     const errorMessage = error.message;
-                    alert(`Erro: ${errorMessage}`);
+                    Swal.fire({
+                        title: 'Erro',
+                        text: errorMessage,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
                 });
         });
 
@@ -322,10 +398,20 @@
                 message: message,
                 timestamp: Date.now()
             }).then(() => {
-                alert('Mensagem enviada com sucesso!');
+                Swal.fire({
+                    title: 'Mensagem enviada!',
+                    text: 'Agradecemos seu contato.',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                });
                 contactForm.reset();
             }).catch((error) => {
-                alert(`Erro ao enviar mensagem: ${error.message}`);
+                Swal.fire({
+                    title: 'Erro',
+                    text: `Erro ao enviar mensagem: ${error.message}`,
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
             });
         });
 
@@ -378,16 +464,6 @@
         });
 
         // Global access section animations
-        gsap.from('#global-access img', {
-            opacity: 0,
-            x: 100,
-            duration: 1,
-            scrollTrigger: {
-                trigger: '#global-access',
-                start: 'top center+=100',
-            }
-        });
-
         gsap.from('#global-access h2, #global-access p, #global-access ul', {
             opacity: 0,
             x: -100,
@@ -400,16 +476,6 @@
         });
 
         // Public articles section animations
-        gsap.from('#public-articles img', {
-            opacity: 0,
-            x: -100,
-            duration: 1,
-            scrollTrigger: {
-                trigger: '#public-articles',
-                start: 'top center+=100',
-            }
-        });
-
         gsap.from('#public-articles h2, #public-articles p, #public-articles ul', {
             opacity: 0,
             x: 100,
@@ -431,6 +497,116 @@
                 start: 'top center+=100',
             }
         });
+
+        // Vanta.js background
+        VANTA.NET({
+            el: "#vanta-canvas",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x3c91e6,
+            backgroundColor: 0x23153c,
+            points: 10.00,
+            maxDistance: 25.00,
+            spacing: 17.00
+        });
+
+        // Particles.js
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle", stroke: { width: 0, color: "#000000" }, polygon: { nb_sides: 5 }, image: { src: "img/github.svg", width: 100, height: 100 } },
+                opacity: { value: 0.5, random: false, anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 3, random: true, anim: { enable: false, speed: 40, size_min: 0.1, sync: false } },
+                line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 6, direction: "none", random: false, straight: false, out_mode: "out", bounce: false, attract: { enable: false, rotateX: 600, rotateY: 1200 } }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" }, resize: true },
+                modes: { grab: { distance: 400, line_linked: { opacity: 1 } }, bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, repulse: { distance: 200, duration: 0.4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
+            },
+            retina_detect: true
+        });
+
+        // Typed.js
+        var typed = new Typed('#typed-text', {
+            strings: ["Escreva, compartilhe e conecte-se globalmente", "Descubra novas ideias e perspectivas", "Faça parte de uma comunidade global de conhecimento"],
+            typeSpeed: 50,
+            backSpeed: 25,
+            backDelay: 1500,
+            startDelay: 1000,
+            loop: true
+        });
+
+        // AOS initialization
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Chart.js
+        var ctx = document.getElementById('articleChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                datasets: [{
+                    label: 'Artigos Publicados',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Three.js Globe
+        function createGlobe() {
+            const container = document.getElementById('globe-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            const geometry = new THREE.SphereGeometry(5, 32, 32);
+            const texture = new THREE.TextureLoader().load('https://threejs.org/examples/textures/land_ocean_ice_cloud_2048.jpg');
+            const material = new THREE.MeshBasicMaterial({ map: texture });
+            const globe = new THREE.Mesh(geometry, material);
+            scene.add(globe);
+
+            camera.position.z = 10;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                globe.rotation.y += 0.005;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+
+        createGlobe();
     </script>
 </body>
 </html>
