@@ -1,4 +1,7 @@
 
+Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar a funcionalidade e o design geral. Aqui está a versão atualizada do código com as correções e melhorias:
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -153,6 +156,11 @@
             height: 300px;
             width: 100%;
         }
+
+        .illustration {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -180,7 +188,7 @@
                 </p>
                 <div id="authForm" class="auth-form max-w-md mx-auto p-6 rounded-lg">
                     <div id="emailStep">
-                        <input type="email" id="email" placeholder="Seu e-mail" class="w-full px-4 py-2 rounded mb-4 text-gray-800">
+                        <input type="email" id="authEmail" placeholder="Seu e-mail" class="w-full px-4 py-2 rounded mb-4 text-gray-800">
                         <button id="emailNext" class="btn-secondary w-full py-2 rounded-full font-semibold">
                             <i class="fas fa-envelope mr-2"></i>Próximo
                         </button>
@@ -202,16 +210,19 @@
                 <h2 class="text-4xl font-bold text-center text-white mb-12 text-shadow section-title" data-aos="fade-up">Recursos Incríveis</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="card p-6" data-aos="flip-left" data-aos-delay="100">
+                        <img src="https://via.placeholder.com/150" alt="Escreva Artigos" class="illustration mb-4 mx-auto">
                         <i class="fas fa-pen-fancy text-4xl text-primary-color mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Escreva Artigos</h3>
                         <p class="text-gray-600">Compartilhe suas ideias e conhecimentos com o mundo.</p>
                     </div>
                     <div class="card p-6" data-aos="flip-left" data-aos-delay="200">
+                        <img src="https://via.placeholder.com/150" alt="Conecte-se" class="illustration mb-4 mx-auto">
                         <i class="fas fa-users text-4xl text-primary-color mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Conecte-se</h3>
                         <p class="text-gray-600">Interaja com outros usuários e expanda sua rede.</p>
                     </div>
                     <div class="card p-6" data-aos="flip-left" data-aos-delay="300">
+                        <img src="https://via.placeholder.com/150" alt="Descubra" class="illustration mb-4 mx-auto">
                         <i class="fas fa-lightbulb text-4xl text-primary-color mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Descubra</h3>
                         <p class="text-gray-600">Explore conteúdos diversos e enriquecedores.</p>
@@ -268,7 +279,7 @@
 
         <div class="section-transition gradient-bg"></div>
 
-        <section id="contact" class="gradient-bg py-20">
+        <section id="contact" class="gradient</continuation_point>-bg py-20">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center text-white mb-8 section-title" data-aos="fade-up">Entre em Contato</h2>
                 <form id="contactForm" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg" data-aos="fade-up">
@@ -277,8 +288,8 @@
                         <input type="text" id="name" name="name" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-primary-color" required>
                     </div>
                     <div class="mb-4">
-                        <label for="email" class="block text-gray-700 font-semibold mb-2">E-mail</label>
-                        <input type="email" id="email" name="email" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-primary-color" required>
+                        <label for="contactEmail" class="block text-gray-700 font-semibold mb-2">E-mail</label>
+                        <input type="email" id="contactEmail" name="email" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-primary-color" required>
                     </div>
                     <div class="mb-4">
                         <label for="message" class="block text-gray-700 font-semibold mb-2">Mensagem</label>
@@ -343,7 +354,7 @@
         // Authentication logic
         const emailStep = document.getElementById('emailStep');
         const passwordStep = document.getElementById('passwordStep');
-        const emailInput = document.getElementById('email');
+        const emailInput = document.getElementById('authEmail');
         const passwordInput = document.getElementById('password');
         const emailNext = document.getElementById('emailNext');
         const signUp = document.getElementById('signUp');
@@ -610,3 +621,4 @@
     </script>
 </body>
 </html>
+```
