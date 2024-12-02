@@ -1,7 +1,4 @@
 
-Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar a funcionalidade e o design geral. Aqui está a versão atualizada do código com as correções e melhorias:
-
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -161,6 +158,63 @@ Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar
             max-width: 100%;
             height: auto;
         }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .testimonial {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .pricing-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .faq-question {
+            cursor: pointer;
+            padding: 1rem 0;
+        }
+
+        .faq-answer {
+            padding-bottom: 1rem;
+            display: none;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
@@ -171,6 +225,7 @@ Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar
                 <a href="#features" class="hover:text-secondary-color transition duration-300">Recursos</a>
                 <a href="#global-access" class="hover:text-secondary-color transition duration-300">Acesso Global</a>
                 <a href="#public-articles" class="hover:text-secondary-color transition duration-300">Artigos Públicos</a>
+                <a href="#pricing" class="hover:text-secondary-color transition duration-300">Preços</a>
                 <a href="#contact" class="hover:text-secondary-color transition duration-300">Contato</a>
             </div>
             <button id="loginBtn" class="btn-primary px-6 py-2 rounded-full font-semibold">Entrar</button>
@@ -194,7 +249,7 @@ Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar
                         </button>
                     </div>
                     <div id="passwordStep" class="hidden">
-                        <input type="password" id="password" placeholder="Sua senha" class="w-full px-4 py-2 rounded mb-4 text-gray-800">
+                        <input type="password" id="authPassword" placeholder="Sua senha" class="w-full px-4 py-2 rounded mb-4 text-gray-800">
                         <button id="signUp" class="btn-secondary w-full py-2 rounded-full font-semibold">
                             <i class="fas fa-user-plus mr-2"></i>Criar Conta
                         </button>
@@ -210,22 +265,34 @@ Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar
                 <h2 class="text-4xl font-bold text-center text-white mb-12 text-shadow section-title" data-aos="fade-up">Recursos Incríveis</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="card p-6" data-aos="flip-left" data-aos-delay="100">
-                        <img src="https://via.placeholder.com/150" alt="Escreva Artigos" class="illustration mb-4 mx-auto">
-                        <i class="fas fa-pen-fancy text-4xl text-primary-color mb-4"></i>
+                        <i class="fas fa-pen-fancy feature-icon"></i>
                         <h3 class="text-xl font-semibold mb-2">Escreva Artigos</h3>
-                        <p class="text-gray-600">Compartilhe suas ideias e conhecimentos com o mundo.</p>
+                        <p class="text-gray-600">Compartilhe suas ideias e conhecimentos com o mundo através de nossa plataforma intuitiva de escrita.</p>
+                        <ul class="mt-4 space-y-2">
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Editor rico em recursos</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Suporte a múltiplos formatos</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Colaboração em tempo real</li>
+                        </ul>
                     </div>
                     <div class="card p-6" data-aos="flip-left" data-aos-delay="200">
-                        <img src="https://via.placeholder.com/150" alt="Conecte-se" class="illustration mb-4 mx-auto">
-                        <i class="fas fa-users text-4xl text-primary-color mb-4"></i>
+                        <i class="fas fa-users feature-icon"></i>
                         <h3 class="text-xl font-semibold mb-2">Conecte-se</h3>
-                        <p class="text-gray-600">Interaja com outros usuários e expanda sua rede.</p>
+                        <p class="text-gray-600">Interaja com outros usuários, siga seus autores favoritos e expanda sua rede profissional.</p>
+                        <ul class="mt-4 space-y-2">
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Perfis personalizáveis</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Sistema de seguidores</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Grupos de discussão</li>
+                        </ul>
                     </div>
                     <div class="card p-6" data-aos="flip-left" data-aos-delay="300">
-                        <img src="https://via.placeholder.com/150" alt="Descubra" class="illustration mb-4 mx-auto">
-                        <i class="fas fa-lightbulb text-4xl text-primary-color mb-4"></i>
+                        <i class="fas fa-lightbulb feature-icon"></i>
                         <h3 class="text-xl font-semibold mb-2">Descubra</h3>
-                        <p class="text-gray-600">Explore conteúdos diversos e enriquecedores.</p>
+                        <p class="text-gray-600">Explore conteúdos diversos e enriquecedores, personalizados de acordo com seus interesses.</p>
+                        <ul class="mt-4 space-y-2">
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Recomendações inteligentes</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Categorias diversificadas</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Trending topics</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -277,9 +344,113 @@ Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar
             </div>
         </section>
 
+        <div class="section-transition bg-white"></div>
+
+        <section id="testimonials" class="bg-white py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12 section-title" data-aos="fade-up">O que nossos usuários dizem</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="testimonial" data-aos="fade-up" data-aos-delay="100">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Avatar" class="testimonial-avatar mb-4">
+                        <p class="text-gray-600 mb-4">"O B1 revolucionou a maneira como eu compartilho meus conhecimentos. A plataforma é intuitiva e a comunidade é incrível!"</p>
+                        <p class="font-semibold">Maria Silva, Escritora</p>
+                    </div>
+                    <div class="testimonial" data-aos="fade-up" data-aos-delay="200">
+                        <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Avatar" class="testimonial-avatar mb-4">
+                        <p class="text-gray-600 mb-4">"Como leitor, adoro a diversidade de conteúdo que encontro no B1. Sempre aprendo algo novo todos os dias."</p>
+                        <p class="font-semibold">João Santos, Estudante</p>
+                    </div>
+                    <div class="testimonial" data-aos="fade-up" data-aos-delay="300">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Avatar" class="testimonial-avatar mb-4">
+                        <p class="text-gray-600 mb-4">"O B1 me ajudou a expandir minha rede profissional e a estabelecer minha autoridade no meu campo de atuação."</p>
+                        <p class="font-semibold">Ana Oliveira, Especialista em Marketing</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div class="section-transition gradient-bg"></div>
 
-        <section id="contact" class="gradient</continuation_point>-bg py-20">
+        <section id="pricing" class="gradient-bg py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-white mb-12 section-title" data-aos="fade-up">Planos e Preços</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
+                        <h3 class="text-2xl font-bold mb-4">Básico</h3>
+                        <p class="text-4xl font-bold mb-6">Grátis</p>
+                        <ul class="mb-6 space-y-2">
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Acesso a artigos públicos</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Perfil básico</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Limite de 5 artigos por mês</li>
+                        </ul>
+                        <button class="btn-primary w-full py-2 rounded-full font-semibold">Começar Agora</button>
+                    </div>
+                    <div class="pricing-card" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="text-2xl font-bold mb-4">Pro</h3>
+                        <p class="text-4xl font-bold mb-6">R$19,90/mês</p>
+                        <ul class="mb-6 space-y-2">
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Todos os recursos do plano Básico</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Artigos ilimitados</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Análises avançadas</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Suporte prioritário</li>
+                        </ul>
+                        <button class="btn-secondary w-full py-2 rounded-full font-semibold">Assinar Agora</button>
+                    </div>
+                    <div class="pricing-card" data-aos="fade-up" data-aos-delay="300">
+                        <h3 class="text-2xl font-bold mb-4">Empresarial</h3>
+                        <p class="text-4xl font-bold mb-6">Personalizado</p>
+                        <ul class="mb-6 space-y-2">
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Todos os recursos do plano Pro</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Integração com API</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Treinamento personalizado</li>
+                            <li><i class="fas fa-check text-green-500 mr-2"></i>Gerenciamento de equipe</li>
+                        </ul>
+                        <button class="btn-primary w-full py-2 rounded-full font-semibold">Fale Conosco</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-transition bg-white"></div>
+
+        <section id="faq" class="bg-white py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12 section-title" data-aos="fade-up">Perguntas Frequentes</h2>
+                <div class="max-w-3xl mx-auto">
+                    <div class="faq-item" data-aos="fade-up">
+                        <div class="faq-question flex justify-between items-center">
+                            <h3 class="text-xl font-semibold">Como posso começar a escrever no B1?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-600">Para começar a escrever no B1, basta criar uma conta gratuita e clicar no botão "Novo Artigo" no seu painel. Nosso editor intuitivo tornará fácil compartilhar suas ideias com o mundo.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-aos="fade-up">
+                        <div class="faq-question flex justify-between items-center">
+                            <h3 class="text-xl font-semibold">Posso monetizar meus artigos no B1?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-600">Sim! Os usuários do plano Pro têm acesso ao nosso programa de monetização, que permite ganhar dinheiro com base nas visualizações e engajamento dos seus artigos.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-aos="fade-up">
+                        <div class="faq-question flex justify-between items-center">
+                            <h3 class="text-xl font-semibold">Como funciona o sistema de recomendação de artigos?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-600">Nosso sistema de recomendação utiliza inteligência artificial para analisar seus interesses e histórico de leitura, sugerindo artigos relevantes e personalizados para você.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-transition gradient-bg"></div>
+
+        <section id="contact" class="gradient-bg py-20">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center text-white mb-8 section-title" data-aos="fade-up">Entre em Contato</h2>
                 <form id="contactForm" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg" data-aos="fade-up">
@@ -299,6 +470,17 @@ Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar
                 </form>
             </div>
         </section>
+
+        <section id="newsletter" class="bg-white py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-8 section-title" data-aos="fade-up">Assine Nossa Newsletter</h2>
+                <p class="text-center text-gray-600 mb-8" data-aos="fade-up">Fique por dentro das últimas novidades, artigos em destaque e dicas exclusivas.</p>
+                <form class="max-w-lg mx-auto newsletter-form" data-aos="fade-up">
+                    <input type="email" placeholder="Seu melhor e-mail" class="flex-grow px-4 py-2 rounded-l-full border focus:outline-none focus:border-primary-color">
+                    <button type="submit" class="btn-primary px-6 py-2 rounded-r-full font-semibold">Assinar</button>
+                </form>
+            </div>
+        </section>
     </main>
 
     <footer class="bg-gray-800 text-white py-8">
@@ -313,8 +495,10 @@ Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar
                     <ul class="space-y-2">
                         <li><a href="#" class="hover:text-primary-color transition duration-300">Início</a></li>
                         <li><a href="#features" class="hover:text-primary-color transition duration-300">Recursos</a></li>
-                        <li><a href="#global-access" class="hover:text-primary-color transition duration-300">Acesso Global</a></li>
+                        <li><a href="#global-access"<continuation_point>
+li><a href="#global-access" class="hover:text-primary-color transition duration-300">Acesso Global</a></li>
                         <li><a href="#public-articles" class="hover:text-primary-color transition duration-300">Artigos Públicos</a></li>
+                        <li><a href="#pricing" class="hover:text-primary-color transition duration-300">Preços</a></li>
                         <li><a href="#contact" class="hover:text-primary-color transition duration-300">Contato</a></li>
                     </ul>
                 </div>
@@ -355,7 +539,7 @@ Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar
         const emailStep = document.getElementById('emailStep');
         const passwordStep = document.getElementById('passwordStep');
         const emailInput = document.getElementById('authEmail');
-        const passwordInput = document.getElementById('password');
+        const passwordInput = document.getElementById('authPassword');
         const emailNext = document.getElementById('emailNext');
         const signUp = document.getElementById('signUp');
 
@@ -618,7 +802,38 @@ Entendi suas preocupações. Vou revisar o código, corrigir os erros e melhorar
         }
 
         createGlobe();
+
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+        });
+
+        // Newsletter Form Submission
+        const newsletterForm = document.querySelector('#newsletter form');
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = newsletterForm.querySelector('input[type="email"]').value;
+            
+            // Here you would typically send this to your server or newsletter service
+            console.log(`Newsletter signup for: ${email}`);
+            
+            Swal.fire({
+                title: 'Obrigado por se inscrever!',
+                text: 'Você receberá nossas novidades em breve.',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            });
+            
+            newsletterForm.reset();
+        });
     </script>
 </body>
 </html>
-```
