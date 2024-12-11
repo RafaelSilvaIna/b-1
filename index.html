@@ -3,9 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Kiwify Store Products</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+
+        #products {
+            padding: 2em;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5em;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1em;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1em;
+            background-color: #4CAF50;
+            color: white;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
-    <a href="estatico/home.html">Home</a>
+    <header>
+        <h1>My Kiwify Store</h1>
+    </header>
+    <main>
+        <section id="products">
+            <h2>Products</h2>
+            <div id="product-list" class="product-grid"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Store. All rights reserved.</p>
+    </footer>
+    <script>
+        const clientId = 'e78f9a01-c244-4497-a8d9-67709b6eaf6b'; // Replace with your Client ID
+        const clientSecret = '456524d26c44b3d8e59a40c0b548af4efccad93925ea3704a367c6db715285da'; // Replace with your Client Secret
+        const tokenUrl = 'https://api.kiwify.com/oauth/token'; // Replace with the actual token endpoint
+        const apiUrl = 'https://api.kiwify.com/v1/products'; // Replace with the actual API endpoint
+
+        async function getAccessToken() {
+            try {
+                const response = await fetch(tokenUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        grant_type: 'client_credentials',
+                        client_id: 'e78f9a01-c244-4497-a8d9-67709b6eaf6b',
+                        client_secret: '456524d26c44b3d8e59a40c0b548af4efccad93925ea3704a367c6db715285da',
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch token: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.access_token;
+            } catch (error) {
+                console.error('Error fetching access token:', error);
+            }
+        }
+
+        async function fetchProducts() {
+            try {
+                const token = await getAccessToken();
+                const response = await fetch(apiUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                displayProducts(data.products);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        }
+
+        function displayProducts(products) {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" />
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p><strong>$${product.price}</strong></p>
+                `;
+
+                productList.appendChild(productCard);
+            });
+        }
+
+        fetchProducts();
+    </script>
 </body>
 </html>
