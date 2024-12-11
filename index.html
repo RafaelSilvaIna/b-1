@@ -71,11 +71,13 @@
         <p>&copy; 2024 My Store. All rights reserved.</p>
     </footer>
     <script>
-        const clientId = 'e78f9a01-c244-4497-a8d9-67709b6eaf6b'; // Replace with your Client ID
-        const clientSecret = '456524d26c44b3d8e59a40c0b548af4efccad93925ea3704a367c6db715285da'; // Replace with your Client Secret
-        const tokenUrl = 'https://api.kiwify.com/oauth/token'; // Replace with the actual token endpoint
-        const apiUrl = 'https://api.kiwify.com/v1/products'; // Replace with the actual API endpoint
+        const clientId = 'e78f9a01-c244-4497-a8d9-67709b6eaf6b'; // Substitua pelo seu Client ID
+        const clientSecret = 'YOUR_CLIENT_SECRET'; // Substitua pelo seu Client Secret
+        const accountId = 'X736V3eLCceTCCx'; // Substitua pelo seu Account ID
+        const tokenUrl = 'https://api.kiwify.com/oauth/token'; // Endpoint para gerar token
+        const apiUrl = 'https://api.kiwify.com/v1/products'; // Endpoint para listar produtos
 
+        // Função para obter o token de acesso
         async function getAccessToken() {
             try {
                 const response = await fetch(tokenUrl, {
@@ -85,42 +87,45 @@
                     },
                     body: new URLSearchParams({
                         grant_type: 'client_credentials',
-                        client_id: 'e78f9a01-c244-4497-a8d9-67709b6eaf6b',
-                        client_secret: '456524d26c44b3d8e59a40c0b548af4efccad93925ea3704a367c6db715285da',
+                        client_id: 'e78f9a01-c244-4497-a8d9-67709b6eaf6b', // Coloque o Client ID aqui
+                        client_secret: '456524d26c44b3d8e59a40c0b548af4efccad93925ea3704a367c6db715285da', // Coloque o Client Secret aqui
                     }),
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch token: ${response.status}`);
+                    throw new Error(`Falha ao obter token: ${response.status}`);
                 }
 
                 const data = await response.json();
-                return data.access_token;
+                return data.access_token; // Token de acesso retornado pela API
             } catch (error) {
-                console.error('Error fetching access token:', error);
+                console.error('Erro ao buscar o token de acesso:', error);
             }
         }
 
+        // Função para buscar produtos usando o token de acesso
         async function fetchProducts() {
             try {
                 const token = await getAccessToken();
                 const response = await fetch(apiUrl, {
                     headers: {
-                        'Authorization': `Bearer ${token}`,
+                        'Authorization': `Bearer ${token}`, // Insira o token aqui
+                        'x-kiwify-account-id': 'X736V3eLCceTCCx', // Insira o Account ID aqui
                     },
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`Erro HTTP! status: ${response.status}`);
                 }
 
                 const data = await response.json();
                 displayProducts(data.products);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                console.error('Erro ao buscar produtos:', error);
             }
         }
 
+        // Função para exibir os produtos na página
         function displayProducts(products) {
             const productList = document.getElementById('product-list');
             productList.innerHTML = '';
@@ -140,6 +145,7 @@
             });
         }
 
+        // Executa a função para buscar produtos
         fetchProducts();
     </script>
 </body>
